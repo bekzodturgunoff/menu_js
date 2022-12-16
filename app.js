@@ -73,45 +73,44 @@ const menu = [
   },
   {
     id: 10,
-    title: "Some food",
+    title: "bison steak",
     category: "dinner",
-    price: 18.99,
+    price: 22.99,
     img: "./images/item-10.jpeg",
     desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
   },
 ];
-
+// get parent element
 const sectionCenter = document.querySelector(".section-center");
-const container = document.querySelector(".btn-container");
-
+const btnContainer = document.querySelector(".btn-container");
+// display all items when page loads
 window.addEventListener("DOMContentLoaded", function () {
-  displayMenuItems(menu);
+  diplayMenuItems(menu);
   displayMenuButtons();
 });
 
-function displayMenuItems(meunItems) {
-  let displayMenu = meunItems.map(function (item) {
-    return `
+function diplayMenuItems(menuItems) {
+  let displayMenu = menuItems.map(function (item) {
+    // console.log(item);
 
-      <article class="menu-item">
+    return `<article class="menu-item">
           <img src=${item.img} alt=${item.title} class="photo" />
-
           <div class="item-info">
             <header>
               <h4>${item.title}</h4>
-              <h4 class="price">${item.price}</h4>
+              <h4 class="price">$${item.price}</h4>
             </header>
             <p class="item-text">
-             ${item.desc}
+              ${item.desc}
             </p>
           </div>
-        </article>
-      `;
+        </article>`;
   });
   displayMenu = displayMenu.join("");
+  // console.log(displayMenu);
+
   sectionCenter.innerHTML = displayMenu;
 }
-
 function displayMenuButtons() {
   const categories = menu.reduce(
     function (values, item) {
@@ -124,26 +123,30 @@ function displayMenuButtons() {
   );
   const categoryBtns = categories
     .map(function (category) {
-      return `
-    <button class="filter-btn" type="button" data-id=${category}>${category}</button
-
-    `;
+      return `<button type="button" class="filter-btn" data-id=${category}>
+          ${category}
+        </button>`;
     })
     .join("");
-  container.innerHTML = categoryBtns;
-  const fliterBtns = container.querySelectorAll(".filter-btn");
-  fliterBtns.forEach(function (btn) {
+
+  btnContainer.innerHTML = categoryBtns;
+  const filterBtns = btnContainer.querySelectorAll(".filter-btn");
+  console.log(filterBtns);
+
+  filterBtns.forEach(function (btn) {
     btn.addEventListener("click", function (e) {
+      // console.log(e.currentTarget.dataset);
       const category = e.currentTarget.dataset.id;
       const menuCategory = menu.filter(function (menuItem) {
+        // console.log(menuItem.category);
         if (menuItem.category === category) {
           return menuItem;
         }
       });
       if (category === "all") {
-        displayMenuItems(menu);
+        diplayMenuItems(menu);
       } else {
-        displayMenuItems(menuCategory);
+        diplayMenuItems(menuCategory);
       }
     });
   });
